@@ -38,52 +38,56 @@ def extractFeatures(newLeaf):
 
     return X
 
-image_dir_list = os.listdir("LeafDataset/test")
-model = pickle.load(open('trainedModel.sav','rb'))
-#species = ['abies_concolor','abies_nordmanniana','acer_campestre','acer_ginnala','acer_negundo','acer_palmatum','acer_pensylvanicum','carya_tomentosa','carya_ovata','pinus_bungeana']
-correctClassCount = 0
-targetClassName = ""
-oneOrAll = ""
-while not(oneOrAll.lower() == 'yes' or oneOrAll.lower() == 'no'):
- oneOrAll = input("Classify all test leaves?(enter yes or no only)\n>")
+def main():
+    image_dir_list = os.listdir("LeafDataset/test")
+    model = pickle.load(open('trainedModel.sav','rb'))
+    #species = ['abies_concolor','abies_nordmanniana','acer_campestre','acer_ginnala','acer_negundo','acer_palmatum','acer_pensylvanicum','carya_tomentosa','carya_ovata','pinus_bungeana']
+    correctClassCount = 0
+    targetClassName = ""
+    oneOrAll = ""
+    while not(oneOrAll.lower() == 'yes' or oneOrAll.lower() == 'no'):
+     oneOrAll = input("Classify all test leaves?(enter yes or no only)\n>")
 
 
-if oneOrAll == "yes":
-    print("Classifying all leaves")
-    for i in range(len(image_dir_list)):
-        if(not (image_dir_list[i] == "Thumbs.db")):
-         images = os.listdir("LeafDataset/test/"+image_dir_list[i])
-         targetClassName = image_dir_list[i]
-         print("Target Class Name: "+targetClassName)
-        else:
-            continue
-        for j in range(len(images)):
-         if (not(images[j] == "Thumbs.db")):
-           testLeaf = leaf([], [], "")
+    if oneOrAll == "yes":
+        print("Classifying all leaves")
+        for i in range(len(image_dir_list)):
+            if(not (image_dir_list[i] == "Thumbs.db")):
+             images = os.listdir("LeafDataset/test/"+image_dir_list[i])
+             targetClassName = image_dir_list[i]
+             print("Target Class Name: "+targetClassName)
+            else:
+                continue
+            for j in range(len(images)):
+             if (not(images[j] == "Thumbs.db")):
+               testLeaf = leaf([], [], "")
 
-           testLeaf.preprocessing("LeafDataset/test/"+image_dir_list[i]+"/"+images[j],False)
-           testLeaf.segmentation()
+               testLeaf.preprocessing("LeafDataset/test/"+image_dir_list[i]+"/"+images[j],False)
+               testLeaf.segmentation()
 
-           features = extractFeatures(newLeaf=testLeaf)
-           predictedClass = model.predict(features)[0]
-           print("Image "+images[j]+" classified as: " + str(predictedClass))
-           if str(predictedClass) == targetClassName:
-               correctClassCount= correctClassCount+1
-        print()
+               features = extractFeatures(newLeaf=testLeaf)
+               predictedClass = model.predict(features)[0]
+               print("Image "+images[j]+" classified as: " + str(predictedClass))
+               if str(predictedClass) == targetClassName:
+                   correctClassCount= correctClassCount+1
+            print()
 
-    print(str(correctClassCount)+" correct classifications out of 50")
-    print(str((correctClassCount/50)*100)+"% test accuracy")
-else:
-    print("Classifying one leaf only:")
-    imageName = input("Enter the full path of a leaf image from the test folder that you want to classify:\n>")
-    testLeaf = leaf([], [], "")
-    try:
-       testLeaf.preprocessing(imageName,True)
-    except AttributeError as ex:
-        print("Could not find the image file specified")
-        exit(-1)
-    testLeaf.segmentation()
-    features = extractFeatures(newLeaf=testLeaf)
-    predictedClass = model.predict(features)[0]
-    print("The predicted class of this leaf is: "+predictedClass)
+        print(str(correctClassCount)+" correct classifications out of 50")
+        print(str((correctClassCount/50)*100)+"% test accuracy")
+    else:
+        print("Classifying one leaf only:")
+        imageName = input("Enter the full path of a leaf image from the test folder that you want to classify:\n>")
+        testLeaf = leaf([], [], "")
+        try:
+           testLeaf.preprocessing(imageName,True)
+        except AttributeError as ex:
+            print("Could not find the image file specified")
+            exit(-1)
+        testLeaf.segmentation()
+        features = extractFeatures(newLeaf=testLeaf)
+        predictedClass = model.predict(features)[0]
+        print("The predicted class of this leaf is: "+predictedClass)
+
+if __name__== '__main__':
+    main()
 
