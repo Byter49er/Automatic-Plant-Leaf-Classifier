@@ -11,7 +11,9 @@ from Leaf import leaf
 import math
 import time
 
-def trainModel():
+
+
+def main():
     image_dir_list = os.listdir("LeafDataset")
     image_dir_list.remove('test')
     df = pd.DataFrame()
@@ -84,4 +86,6 @@ def trainModel():
     print(classification_report(model.predict(X_val), y_val))  # print confusion matrix of validation set
     print(f"Training Accuracy: {np.mean(model.predict(X_val) == y_val) *100:.2f}%"  )  # print training accuracy
     pickle.dump(model, open('trainedModel.sav', 'wb'))  # save trained model
-trainModel()
+
+if __name__== '__main__':
+    main()
