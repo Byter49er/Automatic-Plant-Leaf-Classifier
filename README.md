@@ -1,4 +1,7 @@
+Author: Ricardo Aaron Pillay
+
 Instructions to Run:
+
 1)Download the "Leaf Classifier" folder
 
 2)Open the "Leaf Classifier" folder and extract the "LeafDataset" folder from the "LeafDataset.zip" file
