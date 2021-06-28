@@ -4,8 +4,8 @@ Instructions to Run:
 
 1)Download the "Leaf Classifier" folder
 
-2)Open the "Leaf Classifier" folder and extract the "LeafDataset" folder from the "LeafDataset.zip" file. Note this step is very important as the
-  dataset the program uses is in a zip file and the program cannot read the image files from the zip file.
+2)Open the "Leaf Classifier" folder and extract the "LeafDataset" folder from the "LeafDataset.zip" file. Note the program will not run if the "LeafDataset.zip"
+  is not unzipped prior to running.
 
 3)Open the the "Leaf Classifier" folder in a Python IDE of your choice (This project was developed on PyCharm)
 
